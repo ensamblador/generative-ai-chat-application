@@ -3,6 +3,7 @@ import chatbot_lib as glib #reference to local lib script
 from langchain.callbacks import StreamlitCallbackHandler
 
 
+
 st.set_page_config(page_title="Asistente Personal") #HTML title
 st.markdown("## Chatea con tu asistente personal") #page title
 
@@ -24,7 +25,7 @@ for message in st.session_state.chat_history: #loop through the chat history
 
 st.sidebar.markdown('## Parametros')
 
-options = ['anthropic.claude-instant-v1','anthropic.claude-v1', 'anthropic.claude-v2'] 
+options = ['anthropic.claude-instant-v1', 'anthropic.claude-v2'] 
 model_id = st.sidebar.selectbox('model_id', options)
 
 temp = st.sidebar.slider('Temperatura', 0.0, 1.0, 0.0, 0.01)
@@ -34,7 +35,6 @@ max_tokens = st.sidebar.slider('Max Tokens', 50, 10000, 1024, 50)
 input_text = st.chat_input("escribe tu mensaje aquí") #display a chat input box
 
 if input_text: #run the code in this if block after the user submits a chat message
-    
     with st.chat_message("user"): #display a user chat message
         st.markdown(input_text) #renders the user's latest message
     

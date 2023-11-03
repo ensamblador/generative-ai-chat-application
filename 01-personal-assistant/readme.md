@@ -1,23 +1,53 @@
 # Asistente Personal usando Generative AI
 
+## Indice
+
+1. [Intro](#introducción)
+2. [Pre requisitos](#pre-requisitos)
+3. [Lanzar la Aplicación](#instrucciones-para-lanzar-la-aplicación)
+4. [Uso de la Aplicación](#uso-del-asistente)
+    * [Generación de Código](#generacion-de-código)
+    * [Resumen y extracción de informacion](#resumen-y-extracción-de-información-relevante)
+    * [Experimenta con 1-shot learning](#experimenta-con-1-shot-learning)
+4. [Cómo Funciona?](#cómo-funciona)
+4. [Acerca de los Large Language Models](#acerca-del-llm-aka-large-language-model)
+    * [Amazon Bedrock y Anthropic Claude](#amazon-bedrock-y-anthropic-claude)
+    * [Memoria](#memoria)
+4. [Costo](#costo)
+4. [Que son los tokens y como se calculan?](#qué-son-y-como-se-estiman-los-tokens)
+5. [Conclusiones y siguientes pasos](#conclusiones-y-siguientes-pasos)
+
+
+
+## Introducción
+
+En este blog sobre cómo crear un Asistente Personal usando IA Generativa (primero de la serie, espero) les compartiré los pasos necesarios para lanzar su propio chatbot en un entorno local y aprovechar esta nueva technología para ayudarte en tus labores diarias forma segura y privada. Si quieres saber acerca del código que está detrás puedes ir directo a la sección [Cómo funciona](#cómo-funciona).
+
+
+La IA generativa ha revolucionado el mundo porque hemos podido, a través de aplicaciones de consumo como ChatGPT, experimentar lo poderosos que se han vuelto los últimos modelos de aprendizaje automático. Si bien se ha prestado mucha atención a cómo los consumidores están usando la IA generativa, creemos que hay una oportunidad aún mayor en cómo personas y startups pueden crear servicios similares y como las empresas los utilizan para mejorar su operación.
+
+Veremos cómo funciona el código detrás de escenas, que invoca modelos de lenguage gigantes (large language models, LLM) por [Amazon Bedrock](https://aws.amazon.com/es/bedrock/) y [Anthropic Claude](https://aws.amazon.com/es/bedrock/claude/) para generar respuestas conversacionales. Aprenderemos conceptos clave como prompts, memoria de conversación y streaming callbacks (y algo de [streamlit](https://docs.streamlit.io/knowledge-base/tutorials))
+
+Experimentaremos con distintas tareas como generación de código, resumen de textos y one-shot learning. Al final, entenderás los componentes principales de un sistema de chatbot: la interfaz de usuario, la lógica de backend y la integración con modelos de lenguaje de gran escala.
+
+
+
 ## Pre requisitos:
 
-[Aca puedes encontrar los pre requisitos](../prerequisites.md) asegura tener todo antes de comenzar.
+[Aca puedes encontrar los pre requisitos](prerequisites.md) asegura de poder ejecutar `aws bedrock list-foundation-models` usando **aws cli** antes de comenzar.
 
+## Instrucciones para lanzar la aplicación
 
-Bienvenido al asistente personal basado en chat. Este archivo README te guiará por los pasos necesarios para clonar el repositorio y ejecutar la aplicación.
+### Clonar repositorio
 
-Si quieres saber acerca del código que está detrás puedes ir a la sección [Cómo funciona](#cómo-funciona)
-
-## Clonar repositorio
-
-Clona este repositorio:
+Clona este repositorio y accede a la carpeta:
 
 ```zsh
-git clone https://github.com/usuario/01-personal-assistant.git
+git clone https://github.com/ensamblador/generative-ai-chat-application.git
+cd generative-ai-chat-application/01-personal-assistant
 ```
 
-## Configuración del entorno virtual
+### Configuración del entorno virtual
 
 1. Crea un entorno virtual:
 
@@ -27,12 +57,11 @@ git clone https://github.com/usuario/01-personal-assistant.git
 
 2. Activa el entorno virtual:
 
-
     ```zsh
     source .venv/bin/activate
     ```
 
-## Instalación de dependencias
+### Instalación de dependencias
 
 Instala las dependencias del proyecto:
 
@@ -40,7 +69,7 @@ Instala las dependencias del proyecto:
 pip install -r requirements.txt
 ```
 
-## Ejecución
+### Lanzar la aplicación
 
 Inicia la aplicación del asistente:
 
@@ -50,9 +79,11 @@ streamlit run chatbot_app.py --server.port 80
 
 La aplicación estará disponible en http://localhost:80
 
-### Comencemos por probar distintas tareas
+## Uso del asistente
 
-#### Generacion de código
+Comencemos por probar distintas tareas
+
+### Generacion de código
 
 Prompt:
 
@@ -246,7 +277,7 @@ def get_llm(streaming_callback=None, invocation_kwargs=None, model_id=None):
 ```
 
 
-## Memoria
+### Memoria
 
 La mayoría de las aplicaciones de IA conversacionales tienen interfaz de chat. Un componente clave es poder hacer referencia a información de conversaciones anteriores. Esta capacidad de almacenar información de interacciones pasadas se denomina "memoria". [LangChain provee herramientas para agregar memoria a un sistema](https://python.langchain.com/docs/modules/memory/).
 
@@ -280,3 +311,42 @@ if 'memory' not in st.session_state:
 
 Luego la instancia de `st.session_state.memory` se pasa como argumento a la conversacion para ir leyendo y escribiendo los diálogos anteriores.
 
+
+# Costo estimado
+
+Al utilizar el ambiente local, no incurriremos en gastos asociados a infraestructura. El costo principal viene dado por los LLMs que utilizaremos :
+
+
+[Fuente](https://aws.amazon.com/es/bedrock/pricing/)
+| Modelo | Price for 1000 input tokens |  Price for 1000 output tokens |  
+|------------- | :--:|  :-:|
+| Claude Instant     | 0.00163     |  0.00551
+| Claude V2      | 0.01102      | 0.03268
+
+### Ejemplo 
+
+(la forma de cobro es pago por uso, así que este es un ejercicio)
+
+Imaginemos que nuestra apliación utiliza 500 tokens de entrada cada turno (input + historia) y la respuesta son 500 tokens en promedio, al usarla unas 1000 veces en el mes , nuestros costos totales son 
+
+```calc
+500 (tokens entrada) x 1 (mil veces) x  0.00163 (costo por cada mil Tok) = 0,815 USD 
+500 (tokens salida ) x 1 (mil veces) x  0.00551 (costo por cada mil Tok) = 2,755 USD
+0,815 + 2,755 = 3,57 USD / Mes
+```
+
+
+## Qué son y como se estiman los tokens
+
+Un token es una unidad del texto que el modelo identifica como algo único en indivisible, puede se sea una palabra o una parte de ella. Como cálculo rápido te puede servir que si tienes 100 tokens puede ser entre 60 y 75 palabras.
+
+Si quiere obtener el número exacto te recomiendo utilizar la librería de `Antropic` para contar los tokens de un texto:
+
+```python
+from anthropic import Anthropic
+client = Anthropic()
+n_tokens = client.count_tokens(texto_a_contar)
+```
+
+
+## Conclusiones y siguientes pasos

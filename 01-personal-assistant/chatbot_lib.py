@@ -1,6 +1,9 @@
 from langchain.memory import ConversationSummaryBufferMemory
 from langchain.llms.bedrock import Bedrock
 from langchain.chains import ConversationChain
+from anthropic import Anthropic
+
+antro_client = Anthropic()
 
 
 model_kwargs = { 
@@ -45,7 +48,9 @@ def get_memory():
         llm=llm, max_token_limit=1024,
         human_prefix = "H", ai_prefix= "A" # Prefijos d usuartio y asistente custom para la historia.
     ) 
+
     return memory
+
 
 
 
@@ -68,5 +73,20 @@ def get_chat_response(prompt, memory, streaming_callback=None,invocation_kwargs=
     Human:{input}
 
     Assistant:"""
+
+    #final_message  =  conversation_with_summary.prompt.template.format(history=memory., input=prompt)
+    #print (final_message)
+    inputs_pre = conversation_with_summary.prep_inputs({"input": prompt})
+    # print (inputs_pre)
+    final_input  =  conversation_with_summary.prompt.template.format(history=inputs_pre['history'], input=inputs_pre['input'])
+    #print (final_input)
+
+    all_input_tokens = antro_client.count_tokens(final_input)
+    prompt_input_tokens = antro_client.count_tokens(prompt)
+    print ("Prompt input tokens:", prompt_input_tokens)
+    print ("Prompt input words:", len(prompt.split(" ")))
+    print ("All input tokens:", all_input_tokens)
+    print ("All input words:", len(final_input.split(" ")))
+
     return conversation_with_summary.predict(input=prompt)
 
