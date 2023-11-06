@@ -32,8 +32,11 @@ lo poderosos que se han vuelto los últimos modelos de aprendizaje automático.
 Si bien se ha prestado mucha atención a cómo los usuarios están usando la IA generativa, hay una oportunidad aún mayor en cómo personas y startups pueden crear aplicaciones basadas en IA Generariva 
 y como las empresas los utilizan para mejorar su operación.
 
-Utilizarás [Streamlit](https://docs.streamlit.io/knowledge-base/tutorials) y [Langchain](https://python.langchain.com/docs/get_started/introduction) para levantar una aplicación IA conversacional simple. 
-Verás cómo funciona el código detrás de escenas, y cómo se invocan los modelos de lenguage grandes (large language models, LLM) como [Anthropic Claude] (https://aws.amazon.com/es/bedrock/claude/)  con [Amazon Bedrock](https://aws.amazon.com/es/bedrock/) y 
+Utilizarás [Streamlit](https://docs.streamlit.io/knowledge-base/tutorials) y 
+[Langchain](https://python.langchain.com/docs/get_started/introduction) para levantar una aplicación IA 
+conversacional simple. 
+Verás cómo funciona el código detrás de escenas, y cómo se invocan los modelos de lenguage grandes 
+(large language models, LLM) como [Anthropic Claude](https://aws.amazon.com/es/bedrock/claude/)  con [Amazon Bedrock](https://aws.amazon.com/es/bedrock/) y 
 para generar respuestas conversacionales. Aprenderemos conceptos como prompts, memoria de conversación y la respuesta en streaming.
 
 Este nuevo asistente nos ayudará a experimentar con distintas tareas como 
@@ -128,8 +131,8 @@ prompt: Ayudame resumiento en 5 ideas lo siguiente:
 
 ![](media/agente2.gif)
 
-```markdown
-# Follow up
+Intenta con una pregunta de seguimiento:
+```text
 prompt: Soy dueño de mis datos?
 ```
 
@@ -286,8 +289,7 @@ los FMs desarrollan un profundo conocimiento de los datos y cómo se estructuran
 ***Entrenamiento:***
 ```mermaid
 graph LR
-A[Gran Cantidad de datos: 
-entradas/ salidas] --> B(Entrenamiento)
+A[Gran Cantidad de datos] --> B(Entrenamiento)
 B --> C(Modelo Base pre-entrenado) 
 ```
 
