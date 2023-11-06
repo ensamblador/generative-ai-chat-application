@@ -5,7 +5,7 @@
 2. [Pre requisitos](#pre-requisitos)
 3. [Lanzar la aplicación de IA Conversacional](#instrucciones-para-lanzar-la-aplicación-ia-conversacional)
 4. [Uso del asistente IA Conversacional](#uso-del-asistente-ia-conversacional)
-4. [Cómo Funciona el chatbot con IA Generativa?](#cómo-funciona-el-chatbot-con-ia-generativa)
+4. [Cómo Funciona el chatbot con IA Generativa?](#como-funciona-el-chatbot-con-ia-generativa)
 4. [Acerca de Modelos Base (Foundation Models)](#modelos-base-foundation-model-o-fm)
 5. [Large Language Models (LLMs)](#acerca-del-llm)
 4. [Costo Estimado](#costo-estimado)
@@ -15,11 +15,11 @@
 
 ## Introducción
 
-La IA generativa ha revolucionado el mundo con aplicaciones como ChatGPT. En este blog, compartiré los pasos para crear un asistente personal usando IA generativa de forma local, privada y segura. 
-Aprenderemos a crear aplicaciones conversacionales usando [Streamlit](https://docs.streamlit.io/knowledge-base/tutorials "target=_blank") y [Langchain](https://python.langchain.com/docs/get_started/introduction) para invocar modelos como [Anthropic Claude](https://aws.amazon.com/es/bedrock/claude/) en [Amazon Bedrock](https://aws.amazon.com/es/bedrock/). 
-Veremos conceptos como prompts, memoria de conversación y respuestas en streaming. Este asistente nos ayudará a experimentar con generación de código, resumen de textos y  [few-shot learning](https://www.promptingguide.ai/techniques/fewshot).
+La IA generativa ha revolucionado el mundo con aplicaciones como ChatGPT. En este blog, compartiré los pasos para crear fácilmente un asistente personal usando IA generativa de forma local, privada y segura. 
+Aprenderemos a crear aplicaciones conversacionales para invocar modelos como [Anthropic Claude](https://aws.amazon.com/es/bedrock/claude/) en [Amazon Bedrock](https://aws.amazon.com/es/bedrock/). 
+Este asistente nos ayudará a experimentar con generación de código, resumen de textos y [few-shot learning](https://www.promptingguide.ai/techniques/fewshot).
 
-Nota: Si quieres saber acerca del código que está detrás puedes ir directo a la sección [Cómo funciona](#cómo-funciona).
+Nota: Si quieres saber acerca del código que está detrás puedes ir directo a [Cómo funciona](#como-funciona-el-chatbot-con-ia-generativa).
 
 Manos a la obra!
 
@@ -92,9 +92,6 @@ prompt: necesito un codigo para levantar un chatbot usando streamlit en localhos
 ![](media/agente1.gif)
 
 
-Nota: si te interesa utilizar esta funcionalidad en tu entorno de desarrollo 
-te recomiendo usar [Amazon CodeWhisperer](https://aws.amazon.com/es/codewhisperer/)
-
 ### Resumen y extracción de información relevante
 
 
@@ -150,7 +147,7 @@ Here is the JSON extracted from the invoice tags:
 ```
 
 
-## Cómo funciona el chatbot con IA Generativa ?
+## Como funciona el chatbot con IA Generativa
 
 La aplicacion se construye usando dos script python:
 
@@ -238,29 +235,10 @@ sequenceDiagram
     st_callback = StreamlitCallbackHandler(chat_message) # Callback Handler rellena el contenedor con la respuesta
     ```
 
-### Otros componentes
-
-Esto es Opciona: para que el usuario pueda seleccionar desde la UI el model_id, temperatura y max tokens utilizamos componentes de Streamlit:
-
-```python
-st.sidebar.markdown('## Parametros')
-
-options = ['anthropic.claude-instant-v1', 'anthropic.claude-v2'] 
-model_id = st.sidebar.selectbox('model_id', options) # dropdown para elegir el modelo desde el la app
-
-temp = st.sidebar.slider('Temperatura', 0.0, 1.0, 0.0, 0.01) # slider para temperatura (min, max, default, increment)
-max_tokens = st.sidebar.slider('Max Tokens', 50, 10000, 1024, 50) # slider para max tokens
-```
-
-Estos parámetros se pasan de acuerdo a las preferencias del usuario al momento de invocar el modelo.
-
-
 ## Modelos Base (Foundation Model o FM)
 
 
-Los modelos Base (FM por sus siglas en inglés) son modelos de inteligencia 
-artificial entrenados con enormes cantidades de ejemplos. Debido a este extenso entrenamiento, 
-los FMs desarrollan un profundo conocimiento de los datos y cómo se estructuran.
+Los modelos Base (FM por sus siglas en inglés) son modelos de inteligencia artificial entrenados con enormes cantidades de ejemplos. Debido a este extenso entrenamiento, los FMs desarrollan un profundo conocimiento de los datos y cómo se estructuran.
 
 ***Entrenamiento:***
 ```mermaid
@@ -280,111 +258,37 @@ B --> C(Generación)
 
 ## Acerca del LLM 
 
-Una subcategoría de FM son Los modelos de lenguaje grandes (LLM por sus siglas en inglés). Son modelos de inteligencia 
-artificial entrenados con enormes cantidades de **texto**. Debido a este extenso entrenamiento, 
-los LLMs desarrollan un profundo conocimiento del lenguaje y cómo se estructura.
+Una subcategoría de FM son Los modelos de lenguaje grandes (LLM por sus siglas en inglés). Son modelos de inteligencia artificial entrenados con enormes cantidades de **texto**. Debido a este extenso entrenamiento, los LLMs desarrollan un profundo conocimiento del lenguaje y cómo se estructura.
 
-Esto les permite realizar tareas relacionadas con el lenguaje de forma nativa, 
-como resumir un texto, extraer información clave de un pasaje, o generar nuevo texto coherente. 
+Esto les permite realizar tareas relacionadas con el lenguaje de forma nativa, como resumir un texto, extraer información clave de un pasaje, o generar nuevo texto coherente. 
  
 
 ### Amazon Bedrock y Anthropic Claude
 
-En este proyecto usas el nuevo servicio de AWS llamado [Amazon Bedrock](https://aws.amazon.com/es/bedrock/)
-una forma sencilla de crear aplicaciones de IA Generativa con modelos fundacionales (FMs). 
-En este caso usaremos el modelo [Claude de Antrhopic](https://aws.amazon.com/es/bedrock/claude/)
-
+En este proyecto usas el nuevo servicio de AWS llamado [Amazon Bedrock](https://aws.amazon.com/es/bedrock/) una forma sencilla de crear aplicaciones de IA Generativa con modelos fundacionales (FMs). En este caso usaremos el modelo [Claude de Antrhopic](https://aws.amazon.com/es/bedrock/claude/)
 
 Para invocar el LLM usamos la librería `Bedrock` de `langchain` en (`chatbot_lib.py`)
 
 
-```python
-from langchain.llms.bedrock import Bedrock
-
-model_kwargs = { 
-    "max_tokens_to_sample": 1024,  # Maxima cantidad de tokens de salida
-    "temperature": 1, # Nivel de creatividad o libertad
-    "top_p": 0.9, # top probabilidades a elegir para siguiente token
-    "stop_sequences": ["Human:"] # donde se detiene la generacion
-}
-
-# Modelo por defecto a utilizar
-default_model_id = "anthropic.claude-instant-v1"
-
-def get_llm(streaming_callback=None, invocation_kwargs=None, model_id=None):
-    
-    # si viene un model_id se usa ese, caso contrario se usa el default
-    this_model_id = model_id if model_id else default_model_id 
-    bedrock_base_kwargs = dict(model_id=default_model_id, model_kwargs= model_kwargs)
-    
-    # en el caso de hacer override de invocation_kwargs tales como temperatura y max tokens
-    if invocation_kwargs: 
-        bedrock_base_kwargs = dict(model_id=this_model_id, model_kwargs= {**model_kwargs, **invocation_kwargs})
-
-    new_kwargs = dict(**bedrock_base_kwargs)
-
-    # la respuesta tiene que ser en streamin?, pasamos streaming_callback al modelo
-    if streaming_callback: 
-        new_kwargs = dict(**bedrock_base_kwargs, streaming=True,callbacks=[streaming_callback])
-
-    #print("new_kwargs:",new_kwargs)
-
-    llm = Bedrock(**new_kwargs)
-    
-    #retorna una instancia de llm con Bedrock
-    return llm
-
-```
-
-
 ### Memoria en un chatbot
 
-La mayoría de las aplicaciones de IA conversacionales tienen interfaz de chat. 
-Un componente clave es poder hacer referencia a información de conversaciones anteriores. 
-Esta capacidad de almacenar información de interacciones pasadas se denomina "memoria". 
-[LangChain provee herramientas para agregar memoria a un sistema](https://python.langchain.com/docs/modules/memory/).
-
-Principalmente podemos aprovechar las siguientes clases de memoria principales:
-
-- **ConversationBufferMemory**: La más simple, guarda los mensajes de dialogo tal cual. Para cada turno se utiliza el listado de mensajes anteriores como contexto.
-- **ConversationBufferWindowMemory**: Como **ConversationBufferMemory** pero solo guarda las ***K*** últimas interacciones.
-- **ConversationSummaryMemory**: Lo que hace es crear un resumen de la conversacion hasta el momento para pasar al contexto (en vez de usar todos los mensajes tal cual)
-- **ConversationSummaryBufferMemory**: Combina ambos modos: mantiene una cantidad máxima de tokens limites de conversacion (`max_token_limit`), lo más antiguo lo deja como un resumen. Para realizar el resumen necesita un LLM.
-
-En este caso usamos **ConversationSummaryBufferMemory**
+La mayoría de las aplicaciones de IA conversacionales tienen interfaz de chat. Un componente clave es poder hacer referencia a información de conversaciones anteriores. Esta capacidad de almacenar información de interacciones pasadas se denomina "memoria". [LangChain provee herramientas para agregar memoria a un sistema](https://python.langchain.com/docs/modules/memory/).
+En este caso usamos **ConversationSummaryBufferMemory** que mantiene una cantidad máxima de tokens limites de conversacion (`max_token_limit`), lo más antiguo lo deja como un resumen. Para realizar el resumen necesita un LLM.
 
 `chatbot_lib.py`
 ```python
 
-def get_memory(): 
-    
-    # ConversationSummaryBufferMemory requiere un LLM para resumir los mensajes viejos
-    # Permite mantener la idea sin extender más alla de limite
-
-    llm = get_llm()
-    
-    memory = ConversationSummaryBufferMemory(
-        llm=llm, max_token_limit=1024,
-        human_prefix = "H", ai_prefix= "A" # Prefijos d usuartio y asistente custom para la historia.
-    ) 
-    return memory
+memory = ConversationSummaryBufferMemory(
+    llm=llm, max_token_limit=1024,
+    human_prefix = "H", ai_prefix= "A" # Prefijos d usuartio y asistente custom para la historia.
+) 
 
 ```
-`chatbot_app.py`
-
-```python
-if 'memory' not in st.session_state: 
-    st.session_state.memory = glib.get_memory() #llama a get_memory para inicializarla
-
-```
-
-Luego la instancia de `st.session_state.memory` se pasa como argumento a la conversacion para ir leyendo y escribiendo los diálogos anteriores.
 
 
 ### Qué son y como se estiman los tokens?
 
-Un token es una unidad del texto que el LLM identifica como algo único en indivisible, puede ser una palabra o una parte de ella. 
-Como cálculo rápido te puede servir que si tienes 100 tokens puede ser entre 60 y 75 palabras.
+Un token es una unidad del texto que el LLM identifica como algo único en indivisible, puede ser una palabra o una parte de ella. Como cálculo rápido te puede servir que si tienes 100 tokens puede ser entre 60 y 75 palabras.
 
 Si quieres obtener el número exacto te recomiendo utilizar la librería de `Antropic` para contar los tokens de un texto:
 
@@ -397,7 +301,6 @@ n_tokens = client.count_tokens(texto_a_contar)
 # Costo estimado
 
 Al utilizar el ambiente local, no incurriremos en gastos asociados a infraestructura de nube. El costo principal viene dado por los LLMs que utilizaremos :
-
 
 [Fuente](https://aws.amazon.com/es/bedrock/pricing/)
 | Modelo | Price for 1000 input tokens |  Price for 1000 output tokens |  
@@ -424,14 +327,9 @@ Imaginemos que nuestra apliación utiliza 500 tokens de entrada cada turno (inpu
 
 La IA generativa ha avanzado mucho y ahora es posible crear aplicaciones útiles sin grandes inversiones de tiempo o dinero. Servicios como Amazon Bedrock facilitan el acceso a modelos de lenguaje gigantes como Claude. 
 
-En esta sesión construiste un chatbot conversacional combinando una interfaz de usuario, lógica de backend y LLMs, y puedes seguir mejorando el asistente personal agregando más capacidades como búsquedas en la web, integraciones con APIs y bases de datos propias. 
+En esta sesión construiste un chatbot conversacional combinando una interfaz de usuario, lógica de backend y LLMs. Desde acá puedes seguir construyendo:
 
-Ahora puedes explorar cómo utilizar el asistente para automatizar tareas repetitivas en una empresa u organización.
-
-### Posibles siguientes pasos
-
-Desde acá puedes seguir construyendo:
-
+- Agregar capacidad para incluir búsqueda web o wikipedia.
 - Un siguiente paso natural es desplegar el asistente en la nube para escalar su uso (spoiler alert)
 - Agregar [documentos o videos y poder chatear sobre ellos](https://python.langchain.com/docs/expression_language/cookbook/retrieval)
 - Utilizar [RAG (Retrieval Augmented Generation)](https://python.langchain.com/docs/expression_language/cookbook/retrieval)
