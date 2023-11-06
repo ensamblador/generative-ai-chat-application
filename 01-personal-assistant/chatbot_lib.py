@@ -15,6 +15,28 @@ model_kwargs = {
 
 default_model_id = "anthropic.claude-instant-v1"
 
+class TokenCounter():
+    def __init__(self) -> None:
+        self.user_input_tokens = 0
+        self.all_input_tokens = 0
+        self.output_tokens = 0
+        self.total_input_tokens = 0
+        self.total_output_tokens = 0
+    def new_input(self, user_input, all_input):
+        all_input_tokens = antro_client.count_tokens(all_input)
+        user_input_tokens = antro_client.count_tokens(user_input)
+        self.user_input_tokens = user_input_tokens
+        self.all_input_tokens = all_input_tokens
+        self.total_input_tokens +=all_input_tokens
+        print (self.all_input_tokens)
+
+
+    def new_output(self, output):
+        output_tokens = antro_client.count_tokens(output)
+        self.output_tokens = output_tokens
+
+        self.total_output_tokens +=output_tokens
+
 
 def get_llm(streaming_callback=None, invocation_kwargs=None, model_id=None):
     
@@ -36,7 +58,6 @@ def get_llm(streaming_callback=None, invocation_kwargs=None, model_id=None):
     return llm
 
 
-
 def get_memory(): 
     
     # ConversationSummaryBufferMemory requiere un LLM para resumir los mensajes viejos
@@ -45,17 +66,24 @@ def get_memory():
     llm = get_llm()
     
     memory = ConversationSummaryBufferMemory(
-        llm=llm, max_token_limit=1024,
+        llm=llm, max_token_limit=512,
         human_prefix = "H", ai_prefix= "A" # Prefijos d usuartio y asistente custom para la historia.
     ) 
 
     return memory
 
 
+def get_token_counter():
+    global token_counter
+    token_counter = TokenCounter()
+    return token_counter
 
 
-def get_chat_response(prompt, memory, streaming_callback=None,invocation_kwargs=None, model_id= None):
+
+def get_chat_response(prompt, memory, streaming_callback=None,invocation_kwargs=None, model_id= None, input_token_placeholder=None):
     
+    global token_counter
+
     llm = get_llm(streaming_callback, invocation_kwargs, model_id) 
     
     conversation_with_summary = ConversationChain( #create a chat client
@@ -83,10 +111,21 @@ def get_chat_response(prompt, memory, streaming_callback=None,invocation_kwargs=
 
     all_input_tokens = antro_client.count_tokens(final_input)
     prompt_input_tokens = antro_client.count_tokens(prompt)
+
+
+    token_counter.new_input(user_input=prompt, all_input=final_input)
     print ("Prompt input tokens:", prompt_input_tokens)
     print ("Prompt input words:", len(prompt.split(" ")))
     print ("All input tokens:", all_input_tokens)
     print ("All input words:", len(final_input.split(" ")))
+
+    if input_token_placeholder:
+        input_token_placeholder.markdown(f"""
+            | Tokens Entrada | Cantidad|
+            |--|:--:|
+            |User Mensaje |{token_counter.user_input_tokens}| 
+            |Mensaje + Contexto| {token_counter.all_input_tokens}|
+            |Acumulado | {token_counter.total_input_tokens}|""")
 
     return conversation_with_summary.predict(input=prompt)
 

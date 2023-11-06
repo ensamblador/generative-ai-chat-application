@@ -4,6 +4,8 @@ from langchain.callbacks import StreamlitCallbackHandler
 
 
 
+
+
 st.set_page_config(page_title="Asistente Personal") #HTML title
 st.markdown("## Chatea con tu asistente personal") #page title
 
@@ -15,6 +17,9 @@ if 'memory' not in st.session_state: #see if the memory hasn't been created yet
 
 if 'chat_history' not in st.session_state: #see if the chat history hasn't been created yet
     st.session_state.chat_history = [] #initialize the chat history
+
+if 'token_counter' not in st.session_state:
+    st.session_state.token_counter = glib.get_token_counter()
 
 
 #Re-render the chat history (Streamlit re-runs this script, so need this to preserve previous chat messages)
@@ -31,6 +36,25 @@ model_id = st.sidebar.selectbox('model_id', options)
 temp = st.sidebar.slider('Temperatura', 0.0, 1.0, 0.0, 0.01)
 max_tokens = st.sidebar.slider('Max Tokens', 50, 10000, 1024, 50)
 
+st.sidebar.markdown('### Contador Tokens')
+token_placeholder = st.sidebar.empty()
+
+token_placeholder.markdown(f"""
+    | Tokens Entrada | Cantidad|
+    | --|:--:|
+    | User Mensaje |0| 
+    |Mensaje + Contexto| 0|
+    |Acumulado | 0""")
+
+st.sidebar.markdown("  ")
+
+output_placeholder = st.sidebar.empty()
+
+output_placeholder.markdown(f"""
+    | Tokens Respuesta   | Cantidad|
+    | --|:--:|
+    |Ultima respuesta| 0|
+    |Acumulado | 0""")
 
 input_text = st.chat_input("escribe tu mensaje aquí") #display a chat input box
 
@@ -58,13 +82,20 @@ if input_text: #run the code in this if block after the user submits a chat mess
             invocation_kwargs = { # keyworkd args para sobre escribir en la invocación
                 "max_tokens_to_sample": max_tokens, # cantidad máxima de tokens generados
                 "temperature":temp # temperatura (nivel de libertad o creatividad en la generación)
-            }
+            },
+            input_token_placeholder = token_placeholder
         )
         
     placeholder.empty()
         
     st.chat_message("assistant").write(chat_response,) #display bot's latest response
-
+    st.session_state.token_counter.new_output(chat_response)
+    if output_placeholder:
+        output_placeholder.markdown(f"""
+            | Tokens Respuesta   | Cantidad|
+            | --|:--:|
+            |Ultima respuesta| { st.session_state.token_counter.output_tokens}|
+            |Acumulado | { st.session_state.token_counter.total_output_tokens} |""")
 
     st.session_state.chat_history.append({"role":"assistant", "text":chat_response}) #append the bot's latest message to the chat history
     
