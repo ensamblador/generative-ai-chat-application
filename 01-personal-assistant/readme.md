@@ -298,7 +298,7 @@ B --> C(Modelo Base pre-entrenado)
 ```mermaid
 graph LR
 A[Instruccion] --> B(Modelo base pre-entrenado)
-B --> C(Genración) 
+B --> C(Generación) 
 ```
 
 
