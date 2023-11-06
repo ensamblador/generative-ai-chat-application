@@ -1,49 +1,25 @@
-# Asistente Personal con super poderes de Generative AI
+# Construye un Asistente Personal con super poderes de IA Generativa
 
 
 1. [Introducción](#introducción)
 2. [Pre requisitos](#pre-requisitos)
 3. [Lanzar la aplicación de IA Conversacional](#instrucciones-para-lanzar-la-aplicación-ia-conversacional)
 4. [Uso del asistente IA Conversacional](#uso-del-asistente-ia-conversacional)
-    * [Generación de Código](#generacion-de-código)
-    * [Resumen y extracción de informacion](#resumen-y-extracción-de-información-relevante)
-    * [Experimenta con few-shot learning](#experimenta-con-few-shot-learning)
 4. [Cómo Funciona el chatbot con IA Generativa?](#cómo-funciona-el-chatbot-con-ia-generativa)
 4. [Acerca de Modelos Base (Foundation Models)](#modelos-base-foundation-model-o-fm)
 5. [Large Language Models (LLMs)](#acerca-del-llm)
-    * [Amazon Bedrock y Anthropic Claude](#amazon-bedrock-y-anthropic-claude)
-    * [Memoria en un chatbot](#memoria-en-un-chatbot)
-    * [Que son los tokens y como se calculan?](#qué-son-y-como-se-estiman-los-tokens)
 4. [Costo Estimado](#costo-estimado)
 5. [Conclusiones y siguientes pasos](#conclusiones-y-siguientes-pasos)
-    * [Posibles siguientes pasos](#posibles-siguientes-pasos)
-    * [Recomendaciones para seguir aprendiendo](#recomendacion-para-estudio-adicional)
 
 
 
 ## Introducción
 
-En este blog (primero de la serie, espero) sobre cómo crear un Asistente Personal usando IA Generativa, 
-te compartiré los pasos necesarios para lanzar su propio chatbot en un entorno local y aprovechar esta nueva technología para ayudarte en tus labores diarias forma segura y privada. 
-
-La IA generativa ha revolucionado el mundo porque hemos podido experimentar, a través de aplicaciones de consumidor como ChatGPT, 
-lo poderosos que se han vuelto los últimos modelos de aprendizaje automático. 
-
-Si bien se ha prestado mucha atención a cómo los usuarios están usando la IA generativa, hay una oportunidad aún mayor en cómo personas y startups pueden crear aplicaciones basadas en IA Generariva 
-y como las empresas los utilizan para mejorar su operación.
-
-Utilizarás [Streamlit](https://docs.streamlit.io/knowledge-base/tutorials) y 
-[Langchain](https://python.langchain.com/docs/get_started/introduction) para levantar una aplicación IA 
-conversacional simple. 
-Verás cómo funciona el código detrás de escenas, y cómo se invocan los modelos de lenguage grandes 
-(large language models, LLM) como [Anthropic Claude](https://aws.amazon.com/es/bedrock/claude/)  con [Amazon Bedrock](https://aws.amazon.com/es/bedrock/) y 
-para generar respuestas conversacionales. Aprenderemos conceptos como prompts, memoria de conversación y la respuesta en streaming.
-
-Este nuevo asistente nos ayudará a experimentar con distintas tareas como 
-generación de código, resumen de textos y [few-shot learning](https://www.promptingguide.ai/techniques/fewshot). 
+La IA generativa ha revolucionado el mundo con aplicaciones como ChatGPT. En este blog, compartiré los pasos para crear un asistente personal usando IA generativa de forma local, privada y segura. 
+Aprenderemos a crear aplicaciones conversacionales usando [Streamlit](https://docs.streamlit.io/knowledge-base/tutorials "target=_blank") y [Langchain](https://python.langchain.com/docs/get_started/introduction) para invocar modelos como [Anthropic Claude](https://aws.amazon.com/es/bedrock/claude/) en [Amazon Bedrock](https://aws.amazon.com/es/bedrock/). 
+Veremos conceptos como prompts, memoria de conversación y respuestas en streaming. Este asistente nos ayudará a experimentar con generación de código, resumen de textos y  [few-shot learning](https://www.promptingguide.ai/techniques/fewshot).
 
 Nota: Si quieres saber acerca del código que está detrás puedes ir directo a la sección [Cómo funciona](#cómo-funciona).
-
 
 Manos a la obra!
 
