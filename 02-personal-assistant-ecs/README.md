@@ -1,5 +1,5 @@
 
-# Construye un Asistente Personal con super poderes de IA Generativa
+# TU Asistente Personal de IA Generativa desplegado en AWS y con autenticación
 
 
 1. [Introducción](#introducción)
