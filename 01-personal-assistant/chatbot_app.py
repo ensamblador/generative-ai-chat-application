@@ -2,18 +2,13 @@ import streamlit as st #all streamlit commands will be available through the "st
 import chatbot_lib as glib #reference to local lib script
 from langchain.callbacks import StreamlitCallbackHandler
 
-
-
-
-
 st.set_page_config(page_title="Asistente Personal") #HTML title
-st.markdown("## Chatea con tu asistente personal") #page title
-
+st.header("⌨️ Chatea con tu asistente personal", 
+          help= "Escribe tu pregunta y se invocará el modelo de lenguage seleccionado", divider=True) #page title
 
 
 if 'memory' not in st.session_state: #see if the memory hasn't been created yet
     st.session_state.memory = glib.get_memory() #initialize the memory
-
 
 if 'chat_history' not in st.session_state: #see if the chat history hasn't been created yet
     st.session_state.chat_history = [] #initialize the chat history
@@ -28,13 +23,13 @@ for message in st.session_state.chat_history: #loop through the chat history
         st.markdown(message["text"]) #display the chat content
 
 
-st.sidebar.markdown('## Parametros')
+st.sidebar.header('Parametros 🎛️')
 
 options = ['anthropic.claude-instant-v1', 'anthropic.claude-v2'] 
 model_id = st.sidebar.selectbox('model_id', options)
 
-temp = st.sidebar.slider('Temperatura', 0.0, 1.0, 0.0, 0.01)
-max_tokens = st.sidebar.slider('Max Tokens', 50, 10000, 1024, 50)
+temp = st.sidebar.slider('Temperatura 🌡️', 0.0, 1.0, 0.0, 0.01)
+max_tokens = st.sidebar.slider('Max Tokens 🫷', 50, 10000, 1024, 50)
 
 st.sidebar.markdown('### Contador Tokens')
 token_placeholder = st.sidebar.empty()

@@ -15,6 +15,7 @@ model_kwargs = {
 
 default_model_id = "anthropic.claude-instant-v1"
 
+# Clase para llevar la cuenta de los tokens utilizados por el modelo
 class TokenCounter():
     def __init__(self) -> None:
         self.user_input_tokens = 0
