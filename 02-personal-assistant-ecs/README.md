@@ -107,7 +107,7 @@ PERSONAL-ASSISTANT-ECS.Userscognitoconsole = https://region.console.aws.amazon.c
 ## Uso del chatbot con IA generativa
 
 #### Para acceder necesitas un usuario
-Ingresa a link `Userscognitoconsole` de los outputs, ve a la consola de amazon cognito y crea un usuario nuevo (correo/password). Asegura de hacer check en ***marcar este correo electronico como verificado***
+Ingresa a link de los outputs `Userscognitoconsole`, que te lleva a la consola de amazon cognito y crea un usuario nuevo (correo/password). Asegura de hacer check en ***marcar este correo electronico como verificado***
 
 ![crea usuario cognito](/02-personal-assistant-ecs/media/crea_usuario.png)
 
@@ -173,29 +173,48 @@ Detalle:
 
 ## Despliegue del servicio containerizado usando ECS/Fargate
 
-Una vez tenemos nuestra imagen podemos desplegarla en Amazon [Elastic Container Service (ECS)](https://aws.amazon.com/es/ecs/) con tecnología [Fargate](https://docs.aws.amazon.com/AmazonECS/latest/userguide/what-is-fargate.html) (serverless).
+Una vez está la imagen publicada en ECR, se despliega en Amazon [Elastic Container Service (ECS)](https://aws.amazon.com/es/ecs/) con tecnología [Fargate](https://docs.aws.amazon.com/AmazonECS/latest/userguide/what-is-fargate.html), de esta forma no tenemos que ocuparnos de desplegar y administrar servidores.
 
-Adicional el servicio ECS, desplegaste un balanceador de carga que enruta las peticiones de los usuarios en el puerto 80 a las tareas del servicio que corren en el puerto 8501.
+Adicional el servicio ECS, desplegaste un balanceador de carga que enruta las peticiones de los usuarios  a las tareas del servicio que corren en el cluster ECS.
 
+
+### Despliegue
 
 ```mermaid
-flowchart TB
-    Usuario -->LoadBalancer
-    LoadBalancer("Load Balancer") --http-->RCI
+flowchart LR
+
 
     subgraph ECS Cluster
         subgraph ECS Service
             RCI("Running container")
         end
     end
-    subgraph cognito
-    UserPool("User Pool") --auth---RCI
-    end
+
     
     subgraph Elastic Container Registry
-       
-        RCI("running container image: 8501") --pull---CI("container image")
+       RCI("running container") <--pull-->CI("container image")
     end
+```
+
+
+### Uso 
+
+
+```mermaid
+flowchart TB
+    Usuario --http-->LoadBalancer
+    LoadBalancer("Balanceador de Carga ") -->RCI
+
+    subgraph Amazon ECS Cluster
+        subgraph ECS Service
+            RCI("Running container")
+        end
+    end
+    subgraph Amzon Cognito
+        UserPool("User Pool") -.auth.-RCI
+    end
+        
+    
 ```
 
 ## Autenticación
@@ -203,7 +222,7 @@ flowchart TB
 Como sabemos, usamos amazon cognito como proveedor de identidades (usuario y contraseña). Pero como sabe la aplicación [chatbot_app.py](/02-personal-assistant-ecs/streamlit/chatbot_app.py) eso? Hicimos un pequeño cambio respecto al proyecto pasado:
 
 ```python
-#importamos esta nueva libreriá : pip install streamlit-cognito-auth
+#importamos esta nueva librería
 from streamlit_cognito_auth import CognitoAuthenticator
 
 #Variables de entorno tienen los datos
@@ -211,7 +230,8 @@ pool_id = os.environ.get("POOL_ID")
 app_client_id = os.environ.get("APP_CLIENT_ID")
 app_client_secret = os.environ.get("APP_CLIENT_SECRET")
 
-#Esta clase nos permite interactuar con cognito, presenta la UI y hace las llamadas de API
+#Esta clase nos permite interactuar con cognito, 
+# presenta la UI y hace las llamadas de API
 authenticator = CognitoAuthenticator(
     pool_id=pool_id,
     app_client_secret=app_client_secret,
@@ -222,7 +242,7 @@ is_logged_in = authenticator.login()
 
 ```
 
-En el proyecto le pasamos al contenedor estas variables de entorno luego de crear los recursos de cognito:
+En el proyecto cdk, le pasamos al contenedor estas variables de entorno luego de crear los recursos de cognito:
 
 [`personal_assistant_ecs_stack.py`](/02-personal-assistant-ecs/personal_assistant_ecs/personal_assistant_ecs_stack.py)
 ```python
@@ -235,6 +255,7 @@ def create_user_pool(self):
     }
 ```
 
+De esta forma el contenedor puede acceder a ellas en tiempo de ejecución.
 
 ## Costo estimado
 
@@ -244,6 +265,7 @@ Adicional a los costos de LLM indicados en el [proyecto anterior](../01-personal
     ```
     0,0225 + 0,008 USD x hora. Aproximadamente 22 USD x Mes
     ```
+    (esta cantidad soporta hasta 3000 conexiones activas por minuto)
 
 - Servicio Fargate: 
     ```
@@ -252,7 +274,7 @@ Adicional a los costos de LLM indicados en el [proyecto anterior](../01-personal
 
     Aproximadamente 18 USD x Mes
     ```
-
+Para saber cuantas tareas necesitamos ejecutar, te sugiero [probar un test de carga](https://ecsworkshop.com/monitoring/container_insights/performloadtest/). Este valor viene dado más por los recursos de la app (CPU, RAM). 
 
 En este caso si deseas destruir los recursos para no incurrir en gastos puedes ejecutar
 
