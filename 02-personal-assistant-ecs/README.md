@@ -307,4 +307,4 @@ Algunas ideas como siguientes pasos:
 - Agregar [https listener al balanceador](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html) usando un certificado. 
 
 
-¿Qué te parece? Déjame saber si tienes alguna otra idea para agregar a las conclusiones o siguientes pasos. Estoy aquí para ayudarte a completar esta sección del blog.
+Stay tuned!
