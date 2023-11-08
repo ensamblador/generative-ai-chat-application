@@ -7,3 +7,10 @@ En este proyecto crearás una aplicación en AWS que aprovecha IA generativa dir
 Acá creamos un asistente personal con capacidades de IA generativa de forma local y privada. Un paso a paso de cómo construir una aplicación conversacional que invoque modelos como Claude de Anthropic a través de Amazon Bedrock. Además  la interfaz con web con Streamlit y el backend con Langchain para interactuar con el modelo de lenguaje a través de prompts. 
 
 
+
+
+## 2. [Tu un Asistente Personal como un servicio web autenticado](/02-personal-assistant-ecs/README.md)
+
+Este artículo de blog continúa el proyecto  anterior cubriendo cómo empaquetar la aplicación usando Docker, y desplegarla en AWS utilizando servicios como Elastic Container Service (ECS). Se integra la autenticación usando Amazon Cognito para permitir el acceso solo a usuarios autenticados.
+
+Con esto el asistente está accesible de forma segura desde cualquier dispositivo como una aplicación web. 
