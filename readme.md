@@ -9,7 +9,7 @@ Acá creamos un asistente personal con capacidades de IA generativa de forma loc
 
 
 
-## 2. [Tu un Asistente Personal como un servicio web autenticado](/02-personal-assistant-ecs/README.md)
+## 2. [Tu Asistente Personal como un servicio web autenticado](/02-personal-assistant-ecs/README.md)
 
 Este artículo de blog continúa el proyecto  anterior cubriendo cómo empaquetar la aplicación usando Docker, y desplegarla en AWS utilizando servicios como Elastic Container Service (ECS). Se integra la autenticación usando Amazon Cognito para permitir el acceso solo a usuarios autenticados.
 
