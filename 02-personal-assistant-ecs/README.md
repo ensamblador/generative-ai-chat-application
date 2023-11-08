@@ -219,7 +219,7 @@ flowchart TB
 
 ## Autenticación
 
-Como sabemos, usamos amazon cognito como proveedor de identidades (usuario y contraseña). Pero como sabe la aplicación [chatbot_app.py](/02-personal-assistant-ecs/streamlit/chatbot_app.py) eso? Hicimos un pequeño cambio respecto al proyecto pasado:
+Como sabemos, usamos [Amazon Cognito](https://aws.amazon.com/es/cognito/) como proveedor de identidades (usuario y contraseña). Pero como sabe la aplicación [chatbot_app.py](/02-personal-assistant-ecs/streamlit/chatbot_app.py) eso? Hicimos un pequeño cambio respecto al proyecto pasado:
 
 ```python
 #importamos esta nueva librería
@@ -242,7 +242,7 @@ is_logged_in = authenticator.login()
 
 ```
 
-En el proyecto cdk, le pasamos al contenedor estas variables de entorno luego de crear los recursos de cognito:
+En el proyecto cdk, le pasamos al contenedor estas variables de entorno (`POOL_ID`,`APP_CLIENT_ID`, `APP_CLIENT_SECRET` ) luego de crear los recursos de cognito:
 
 [`personal_assistant_ecs_stack.py`](/02-personal-assistant-ecs/personal_assistant_ecs/personal_assistant_ecs_stack.py)
 ```python
@@ -261,20 +261,27 @@ De esta forma el contenedor puede acceder a ellas en tiempo de ejecución.
 
 Adicional a los costos de LLM indicados en el [proyecto anterior](../01-personal-assistant/readme.md#costo-estimado) debemos agregar los servicios e infraestructura de nube:
 
+
+
 - Balanceador de Carga ([pricing](https://aws.amazon.com/es/elasticloadbalancing/pricing/)): 
     ```
     0,0225 + 0,008 USD x hora. Aproximadamente 22 USD x Mes
     ```
+    ***Nota*** Si aún estás en el [free tier](https://aws.amazon.com/es/free/) de 12 meses: 0 USD x Mes
+
     (esta cantidad soporta hasta 3000 conexiones activas por minuto)
 
-- Servicio Fargate: 
+- Servicio Fargate (ARM): 
     ```
-    0,50 CPU virtuales x 720 horas x 0,04048 USD por hora = 14,57 USD por las horas de vCPU
-    1,00 GB x 720 horas x 0,004445 USD por GB por hora = 3,20 USD por las horas de GB
+    0,50 CPU virtuales x 720 horas x 0,03238 USD por hora = 11,66 USD por las horas de vCPU
+    1,00 GB x 720 horas x 0,00356 USD por GB por hora = 2,56 USD por las horas de GB
 
-    Aproximadamente 18 USD x Mes
+    Aproximadamente 15 USD x Mes
     ```
-Para saber cuantas tareas necesitamos ejecutar, te sugiero [probar un test de carga](https://ecsworkshop.com/monitoring/container_insights/performloadtest/). Este valor viene dado más por los recursos de la app (CPU, RAM). 
+Para saber cuantas tareas necesitamos ejecutar en paralelo para soportar la demanda de usuarios, te sugiero [probar un test de carga](https://ecsworkshop.com/monitoring/container_insights/performloadtest/). Este valor viene dado más por los recursos de la app (CPU, RAM) necesarios para cada usuario. 
+
+- [Amazon Cognito](https://aws.amazon.com/es/cognito/pricing/): Free Tier, siempre que estés bajo los 50.000 Usuarios activos mensuales.
+- Otros costos pequeños: [ECR](https://aws.amazon.com/es/ecr/pricing/), [Code build](https://aws.amazon.com/es/codebuild/pricing/), [Code Pipeline](https://aws.amazon.com/es/codepipeline/pricing/).
 
 En este caso si deseas destruir los recursos para no incurrir en gastos puedes ejecutar
 
