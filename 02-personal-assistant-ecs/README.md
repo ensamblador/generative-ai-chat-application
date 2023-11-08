@@ -23,7 +23,7 @@ Aprenderemos cómo empaquetar nuestra aplicación en un contenedor Docker y desp
 
 También integraremos autenticación de usuarios utilizando [Amazon Cognito](https://aws.amazon.com/es/cognito/) permitir el acceso sólo a usuarios autenticados. 
 
-Al final de este blog, tendrás un asistente conversacional con IA generativa listo para producción que puede ser accedido por múltiples usuarios simultáneamente desde cualquier dispositivo a través de una interfaz web. 
+Al final de este blog, tendrás un asistente conversacional con IA generativa listo que pueda ser accedido por múltiples usuarios simultáneamente desde cualquier dispositivo a través de una interfaz web. 
 
 A construir!
 
@@ -304,6 +304,7 @@ En esta oportunidad aprendiste a empaquetar una aplicación Python en un contene
 Algunas ideas como siguientes pasos:
 - Agregar el CI / CD. Permitir la integración y despliegue continuo de nuevas versiones.
 - Permitir que los usuarios subir sus propios datos para personalizar las respuestas.
+- Agregar [https listener al balanceador](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html) usando un certificado. 
 
 
 ¿Qué te parece? Déjame saber si tienes alguna otra idea para agregar a las conclusiones o siguientes pasos. Estoy aquí para ayudarte a completar esta sección del blog.
