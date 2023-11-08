@@ -1,5 +1,5 @@
 
-# TU Asistente Personal de IA Generativa desplegado en AWS y con autenticación
+# Despliega tu Asistente de IA Generativa en AWS 
 
 
 1. [Introducción](#introducción)
