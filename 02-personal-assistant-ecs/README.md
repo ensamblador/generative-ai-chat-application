@@ -217,6 +217,8 @@ flowchart TB
     
 ```
 
+
+
 ## Autenticación
 
 Como sabemos, usamos [Amazon Cognito](https://aws.amazon.com/es/cognito/) como proveedor de identidades (usuario y contraseña). Pero como sabe la aplicación [chatbot_app.py](/02-personal-assistant-ecs/streamlit/chatbot_app.py) eso? Hicimos un pequeño cambio respecto al proyecto pasado:
