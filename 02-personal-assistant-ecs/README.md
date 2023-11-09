@@ -106,13 +106,13 @@ PERSONAL-ASSISTANT-ECS.Userscognitoconsole = https://region.console.aws.amazon.c
 
 ## Uso del chatbot con IA generativa
 
-#### Para acceder necesitas un usuario
+### Para acceder necesitas un usuario
 Ingresa a link de los outputs `Userscognitoconsole`, que te lleva a la consola de amazon cognito y crea un usuario nuevo (correo/password). Asegura de hacer check en ***marcar este correo electronico como verificado***
 
 ![crea usuario cognito](/02-personal-assistant-ecs/media/crea_usuario.png)
 
 
-#### Ingresa a la app web
+### Ingresa a la app web
 El link de tu aplicación también está en los outputs `LappServiceURL` (http://PERSON-XXXX.us-east-1.elb.amazonaws.com) solo navega ahi y cambia la contraseña:
 
 
