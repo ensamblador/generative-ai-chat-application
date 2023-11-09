@@ -202,7 +202,7 @@ flowchart LR
 
 ```mermaid
 flowchart TB
-    Usuario(Usuarios \n👩🏻‍💻👨🏻‍💻) --http-->LoadBalancer
+    Usuario("Usuarios \n👩🏻‍💻👨🏻‍💻") --http-->LoadBalancer
     LoadBalancer("Balanceador de Carga ") -->RCI
 
     subgraph Amazon ECS Cluster
