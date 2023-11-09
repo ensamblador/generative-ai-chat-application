@@ -15,7 +15,7 @@
 
 
 
-## Introduccón
+## Introducción
 
 En el [blog anterior](/01-personal-assistant/readme.md), aprendiste cómo construir un agente conversacional utilizando modelos de IA generativa de forma local. En este blog continuaremos con el proyecto para llevarlo al siguiente nivel, desplegar la aplicación como un sitio web con autenticación.
 
