@@ -79,7 +79,7 @@ pip install -r requirements.txt
 Ejecuta `cdk deploy` para crear automáticamente los siguientes recursos:
 
 
-- Un pool de usuarios de Amazon Cognito.
+- Un pool de usuarios de [Amazon Cognito](https://aws.amazon.com/es/cognito/).
 - Repositorio en [Amazon Elastic Container Registry (ECR)](https://aws.amazon.com/es/ecr/) para almacenar la imagen del contenedor.
 - Proyecto en[AWS Code Build](https://aws.amazon.com/es/codebuild/) para construir y guardar la imagen del contenedor en ECR
 - Un pipeline en [AWS Code Pipeline](https://aws.amazon.com/es/codepipeline/) que toma un zip en S3, y una acción build que dispara el proyecto de Code Build.
