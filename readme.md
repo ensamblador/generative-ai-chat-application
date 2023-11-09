@@ -11,6 +11,6 @@ Acá creamos un asistente personal con capacidades de IA generativa de forma loc
 
 ## 2. [Despliega tu Asistente de IA Generativa en AWS](/02-personal-assistant-ecs/README.md)
 
-Este artículo de blog continúa el proyecto  anterior cubriendo cómo empaquetar la aplicación usando Docker, y desplegarla en AWS utilizando servicios como Elastic Container Service (ECS). Se integra la autenticación usando Amazon Cognito para permitir el acceso solo a usuarios autenticados.
+<table><tr><td>Este artículo de blog continúa el proyecto  anterior cubriendo cómo empaquetar la aplicación usando Docker, y desplegarla en AWS utilizando servicios como Elastic Container Service (ECS). Se integra la autenticación usando Amazon Cognito para permitir el acceso solo a usuarios autenticados.
 
-Con esto el asistente está accesible de forma segura desde cualquier dispositivo como una aplicación web. 
+Con esto el asistente está accesible de forma segura desde cualquier dispositivo como una aplicación web. </td><td>![](/02-personal-assistant-ecs/media/coover.png)</td></tr></table>
