@@ -4,8 +4,9 @@ En este proyecto crearás una aplicación en AWS que aprovecha IA generativa dir
 
 ## 1. [Construye un Asistente Personal con super poderes de IA Generativa](./01-personal-assistant/readme.md)
 
-Acá creamos un asistente personal con capacidades de IA generativa de forma local y privada. Un paso a paso de cómo construir una aplicación conversacional que invoque modelos como Claude de Anthropic a través de Amazon Bedrock. Además  la interfaz con web con Streamlit y el backend con Langchain para interactuar con el modelo de lenguaje a través de prompts. 
-
+<table style="border:none; width:100%">
+<tr><td>![](/01-personal-assistant/media/cover.png)</td><td>
+Acá creamos un asistente personal con capacidades de IA generativa de forma local y privada. Un paso a paso de cómo construir una aplicación conversacional que invoque modelos como Claude de Anthropic a través de Amazon Bedrock. Además  la interfaz con web con Streamlit y el backend con Langchain para interactuar con el modelo de lenguaje a través de prompts. </td></tr></table>
 
 
 
