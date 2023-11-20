@@ -5,3 +5,4 @@ __pycache__
 *.bin
 chroma.sqlite3
 *.pdf
+index_metadata.pickle
