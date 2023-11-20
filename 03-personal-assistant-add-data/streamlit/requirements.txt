@@ -1,0 +1,7 @@
+boto3
+langchain
+streamlit
+streamlit-cognito-auth
+anthropic
+chromadb
+pypdf

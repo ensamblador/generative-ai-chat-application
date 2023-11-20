@@ -1,3 +1,7 @@
 .venv
 __pycache__
 .vscode
+.DS_Store
+*.bin
+chroma.sqlite3
+*.pdf
