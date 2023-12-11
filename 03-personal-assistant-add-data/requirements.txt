@@ -1,2 +1,10 @@
-aws-cdk-lib==2.106.1
-constructs>=10.0.0,<11.0.0
+boto3
+langchain==0.0.344
+streamlit
+anthropic
+chromadb
+pypdf
+youtube-transcript-api
+pytube
+bs4
+
