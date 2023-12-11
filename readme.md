@@ -15,3 +15,10 @@ Acá creamos un asistente personal con capacidades de IA generativa de forma loc
 Este artículo de blog continúa el proyecto  anterior cubriendo cómo empaquetar la aplicación usando Docker, y desplegarla en AWS utilizando servicios como Elastic Container Service (ECS). Se integra la autenticación usando Amazon Cognito para permitir el acceso solo a usuarios autenticados.
 
 Con esto el asistente está accesible de forma segura desde cualquier dispositivo como una aplicación web.
+
+
+## 2. [Agrega y consulta documentos a tu Asistente de IA Generativa](/03-personal-assistant-add-data/readme.md)
+
+Desde manuales de usuario, reportes técnicos e informes de investigación, hasta contratos legales y transcripciones de llamadas, las empresas acumulan una enorme cantidad de contenido en formato de texto no estructurado. Procesar y extraer conocimiento útil de estos documentos suele ser una tarea tediosa y propensa a errores cuando se hace manualmente. Además, encontrar y recuperar información específica entre cientos o miles de documentos puede ser como buscar una aguja en un pajar.
+
+En este artículo, complementarás el asistente de IA conversacional para ayudar a resolver estos desafíos. Utilizando técnicas de búsqueda semántica en documentos utilizando modelos embeddings  y procesamiento con LLM para la respuesta.

@@ -20,7 +20,7 @@
 
 Desde manuales de usuario, reportes técnicos e informes de investigación, hasta contratos legales y transcripciones de llamadas, las empresas acumulan una enorme cantidad de contenido en formato de texto no estructurado. Procesar y extraer conocimiento útil de estos documentos suele ser una tarea tediosa y propensa a errores cuando se hace manualmente. Además, encontrar y recuperar información específica entre cientos o miles de documentos puede ser como buscar una aguja en un pajar.
 
-En este artículo, complementarás el asistente de IA conversacional para ayudar a resolver estos desafíos. Utilizando técnicas de búsqueda semática en documentos utilizando modelos embeddings como [Amazon Titan](https://aws.amazon.com/es/bedrock/titan/) como  y procesamiento con LLM como [Anthropic Claude](https://aws.amazon.com/es/bedrock/claude/) en [Amazon Bedrock](https://aws.amazon.com/es/bedrock/).
+En este artículo, complementarás el asistente de IA conversacional para ayudar a resolver estos desafíos. Utilizando técnicas de búsqueda semántica en documentos utilizando modelos embeddings como [Amazon Titan](https://aws.amazon.com/es/bedrock/titan/)  y procesamiento con LLM como [Anthropic Claude](https://aws.amazon.com/es/bedrock/claude/) en [Amazon Bedrock](https://aws.amazon.com/es/bedrock/).
 
 
 Manos a la obra!
