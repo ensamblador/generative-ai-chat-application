@@ -12,6 +12,8 @@
 4. [Secuencia de Ejecución de RAG](#secuencia-de-ejecución-de-rag)
 5. [Conclusiones y siguientes pasos](#conclusiones-y-siguientes-pasos)
 
+---
+---
 
 
 # Introducción
@@ -32,6 +34,11 @@ Asegúrate de poder ejecutar en la aws cli antes de avanzar:
 ```zsh
 aws bedrock list-foundation-models
 ``` 
+
+
+---
+---
+
 
 # Instrucciones para lanzar la aplicación IA Conversacional 
 
