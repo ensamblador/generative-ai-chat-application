@@ -21,8 +21,6 @@ Desde manuales de usuario, reportes técnicos e informes de investigación, hast
 En este artículo, complementarás el asistente de IA conversacional para ayudar a resolver estos desafíos. Utilizando técnicas de búsqueda semática en documentos utilizando modelos embeddings como [Amazon Titan](https://aws.amazon.com/es/bedrock/titan/) como  y procesamiento con LLM como [Anthropic Claude](https://aws.amazon.com/es/bedrock/claude/) en [Amazon Bedrock](https://aws.amazon.com/es/bedrock/).
 
 
-Nota: Si quieres saber acerca del código que está detrás puedes ir directo a [Cómo funciona](#como-funciona-el-chatbot-con-ia-generativa).
-
 Manos a la obra!
 
 ## Pre requisitos:
