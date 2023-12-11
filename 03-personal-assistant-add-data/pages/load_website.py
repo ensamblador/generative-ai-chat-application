@@ -34,14 +34,27 @@ collections = get_collections()
 
 with st.form("new_kb_form"):
     st.header("sitio web")
-    website_url = st.text_input("website url") 
+    website_urls = st.text_area("urls separated by new lines")
 
     nombre = st.text_input("Nombre de la Colección")
-    splitby = st.sidebar.slider("Dividir documento por caracteres", 500, 3000, 1000, 100)
+    splitby = st.sidebar.slider("Dividir documento por caracteres", 500, 4000, 4000, 100)
     submitted = st.form_submit_button("Submit")
 
     if submitted:
-        docs = load_and_split_website(website_url, splitby)
+        docs = []
+        n_processed_files = 0
+        urls = website_urls.split("\n")
+        n_files = len(urls)
+        porcentaje_progreso = int(n_processed_files * 100 / n_files)
+        
+        print ("urls:", urls)
+        for url in urls:
+            if "http" in url:
+                loading_bar = st.progress(porcentaje_progreso, text=url)
+                docs += load_and_split_website(url, splitby)
+                loading_bar.empty()
+                st.write("✅ " + url)
+
         print("len:", len(docs))
         nombre = clean_name(nombre)
         vectordb = st.session_state.chroma_client.create_vectordb(nombre)

@@ -6,8 +6,7 @@ from langchain.callbacks import StreamlitCallbackHandler
 
 
 from vdb_lib import (
-    save_file_local,
-    load_and_split_pdf,load_and_split_yt, 
+    load_and_split_yt, 
     clean_name,
     init_collections,
     get_collections
@@ -36,14 +35,26 @@ collections = get_collections()
 
 with st.form("new_kb_form"):
     st.header("video youtube")
-    video_url = st.text_input("URL Youtube video", placeholder= "https://www.youtube.com/watch?v=XXXXXXXX") #display a chat input box
+    video_urls = st.text_area("youtube videos separated by new lines")
 
     nombre = st.text_input("Nombre de la Colección")
-    splitby = st.sidebar.slider("Dividir documento por caracteres", 500, 3000, 1000, 100)
+    splitby = st.sidebar.slider("Dividir documento por caracteres", 500, 4000, 4000, 100)
     submitted = st.form_submit_button("Submit")
 
     if submitted:
-        docs = load_and_split_yt(video_url, splitby)
+        docs = []
+        n_processed_files = 0
+        videos = video_urls.split("\n")
+        n_files = len(videos)
+        porcentaje_progreso = int(n_processed_files * 100 / n_files)
+        print ("videos:", videos)
+        for video in videos:
+            if "https://www.youtube.com/watch?v=" in video:
+                loading_bar = st.progress(porcentaje_progreso, text=video)
+                docs += load_and_split_yt(video, splitby)
+                loading_bar.empty()
+                st.write("✅ " + video)
+
         print("len:", len(docs))
         nombre = clean_name(nombre)
         vectordb = st.session_state.chroma_client.create_vectordb(nombre)
