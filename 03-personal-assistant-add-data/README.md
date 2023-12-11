@@ -272,7 +272,7 @@ sequenceDiagram
   
   participant Chatbot App
   participant Chatbot Lib
-  box black ChromaDB
+  box yellow ChromaDB
   participant Vector Database
   end
   participant Amazon Bedrock
