@@ -328,7 +328,6 @@ En esta sesión, tomamos el Asistente de IA generativo y lo supercargamos con b�
 - Usar [nuevos loaders](https://python.langchain.com/docs/integrations/document_loaders)
 - Experimentar diferentes tamaños de splitters y embeddings como [Cohere Embed-Multilingual](https://aws.amazon.com/es/bedrock/cohere-command/)
 - Experimentar con [Self-Query](https://python.langchain.com/docs/modules/data_connection/retrievers/self_query/)
-- Mul
 
 
 ## Recomendacion para estudio adicional
